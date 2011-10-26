@@ -1,0 +1,30 @@
+{
+    "name": "lytroview",
+    "description": "Pure HTML + JS Viewer for Lytro LFP files",
+    "tags": ["lytro", "viewer"],
+    "author": "Damon Oehlman <damon.oehlman@sidelab.com>",
+    "version": "0.0.1",
+    "main": "server",
+    
+    "dependencies": {
+        "express": "2.5.x",
+        "underscore": "1.2.x"
+    },
+    
+    "devDependencies": {
+        "vows": "0.5.x",
+        "interleave": "0.0.x"
+    },
+    
+    "repository": {
+        "type": "git",
+        "url": "http://github.com/DamonOehlman/lytroview.git"
+    },
+    
+    "bugs": {
+        "web": "http://github.com/DamonOehlman/lytroview/issues"
+    },
+
+    "contributors": [
+    ]
+}
