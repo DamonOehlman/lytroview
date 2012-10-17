@@ -1,4 +1,6 @@
-var fs = require('fs'),
+var async = require('async'),
+    debug = require('debug')('lytroview'),
+    fs = require('fs'),
     _ = require('underscore');
 
 var JPEG_START = [0xFF, 0xD8],
@@ -36,7 +38,7 @@ buffersTemplate.forEach(function(buffer) {
 function _createExtractor(length, processor, nextMode) {
     var extractor = function(testBuffer, buffers, fileData) {
         if (testBuffer.length === length) {
-            console.log('got data');
+            debug('got data');
             // if a processor was specified, then call it
             if (processor) {
                 processor(testBuffer, buffers, fileData);
@@ -72,7 +74,7 @@ function _jpegRead(testBuffer, buffers, fileData) {
     if (_.isEqual(endBytes, JPEG_END)) {
         // extract the image
         fileData.images.push({
-            data: testBuffer.splice(0)
+            data: new Buffer(testBuffer.splice(0))
         });
         
         return _search;
@@ -96,7 +98,7 @@ function _readFileData(data, buffers, fileData) {
         fileData.metadata = JSON.parse(jsonData);
     }
     catch (e) {
-        console.log('Could not parse file metadata: ', e.stack);
+        debug('Could not parse file metadata: ', e.stack);
     }
 } // _readFileData
 
@@ -108,12 +110,12 @@ function _search(testBuffer, buffers, fileData) {
             
         /*
         if (testTail.length <= buffer.tag.length) {
-            console.log(testTail, buffer.tag);
+            debug(testTail, buffer.tag);
         }
         */
             
         if (testTail.length === buffer.tag.length && _.isEqual(testTail, buffer.tag)) {
-            console.log('found: ' + buffer.label);
+            debug('found: ' + buffer.label);
             
             // if we have a parser with the buffer, then parse a copy of the buffer
             if (buffer.parser) {
@@ -142,10 +144,11 @@ module.exports = function(filepath, callback) {
         mode = _search,
         fileData = {
             images: []
-        };
+        },
+        testBuffer = [];
         
     fs.readFile(filepath, function(err, data) {
-        var testBuffer = [];
+        if (err) return callback(err);
         
         // iterate through the buffer
         for (var ii = 0, bufferLen = data.length; ii < bufferLen; ii++) {
@@ -156,12 +159,6 @@ module.exports = function(filepath, callback) {
             }
         }
         
-        // iterate through the images and save them
-        fileData.images.forEach(function(imageData, index) {
-            var buf = new Buffer(imageData.data)
-            fs.writeFile(filepath.replace(reLFPFile, '$1-' + index + '.jpg'), new Buffer(imageData.data))
-        });
-        
-        console.log('done');
+        callback(null, fileData);
     });
 };
