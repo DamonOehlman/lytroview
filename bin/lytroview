@@ -1,4 +1,16 @@
 #!/usr/bin/env node
-require('scaffolder')({
-    defaultCommands: ['split']
-});
+const path = require('path');
+const program = require('commander');
+const packageData = require('../package.json');
+const { split } = require('../commands');
+
+program
+  .version(packageData.version)
+
+program
+  .command('split <filename>')
+  .description('split the target LFP file into JPEG files for each layer')
+  .option('-d, --output_dir <directory>', 'output location (defaults to source file location)')
+  .action(split)
+
+program.parse(process.argv);

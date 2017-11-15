@@ -13,8 +13,8 @@
   },
   "dependencies": {
     "async": "^2.6.0",
+    "commander": "^2.11.0",
     "debug": "^3.1.0",
-    "scaffolder": "0.9.3",
     "underscore": "^1.8.3"
   },
   "devDependencies": {
