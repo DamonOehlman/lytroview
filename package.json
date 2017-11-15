@@ -1,13 +1,13 @@
 {
   "name": "lytroview",
-  "description": "Pure HTML + JS Viewer for Lytro LFP files",
+  "description": "Command line utility for splitting an LFP file into component JPEG images",
   "tags": [
     "lytro",
     "viewer"
   ],
-  "author": "Damon Oehlman <damon.oehlman@sidelab.com>",
+  "author": "Damon Oehlman <damon.oehlman@gmail.com>",
   "version": "0.1.0",
-  "main": "server",
+  "license": "MIT",
   "bin": {
     "lytroview": "./bin/lytroview"
   },
@@ -17,7 +17,9 @@
     "scaffolder": "0.9.3",
     "underscore": "^1.8.3"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "embellish-readme": "^1.1.1"
+  },
   "repository": {
     "type": "git",
     "url": "http://github.com/DamonOehlman/lytroview.git"
@@ -25,5 +27,7 @@
   "bugs": {
     "web": "http://github.com/DamonOehlman/lytroview/issues"
   },
-  "contributors": []
+  "scripts": {
+    "embellish": "embellish README.md"
+  }
 }

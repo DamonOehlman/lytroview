@@ -1,7 +1,41 @@
 # Lytro Viewer
 
-Today I learned about [Lytro](https://www.lytro.com/).  Really Amazing Stuff, but they poor guys have only got a flash viewer for their files.  This is a little proof of concept creating a simple NodeJS server to decode the `.lfp` files and provide the JPEG image data for the rendered frames from the lightfield data.
+This is a simple command-line utility for splitting an `.lfp` file into it's component `.jpg` image layers. I'm unsure how compatible it is with the more modern Lytro cameras as I still only have a first gen camera.
 
-## Copyright and Stuff
+[![NPM](https://nodei.co/npm/lytroview.png)](https://nodei.co/npm/lytroview/)
 
-All the code written here is available under the MIT licence, but as for the details on the LFP file format, there might be some copyright (no idea ATM).
+[![bitHound Score](https://www.bithound.io/github/DamonOehlman/lytroview/badges/score.svg)](https://www.bithound.io/github/DamonOehlman/lytroview)
+
+## Usage
+
+### Getting a sample image
+
+If you don't own a Lytro camera and would like to take this for a spin you can download one of the [sample images](http://lightfield-forum.com/2012/08/lytro-sample-lfp-files-for-download/) using the following command:
+
+```
+wget http://lightfield-forum.com/wordpress/wp-content/files/IMG_0007.lfp
+```
+
+## LICENSE
+
+Copyright (c) 2017 Damon Oehlman <damon.oehlman@gmail.com>
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+'Software'), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
