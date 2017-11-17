@@ -3,6 +3,8 @@ const debug = require('debug')('lytroview');
 const fs = require('fs');
 const _ = require('underscore');
 
+const { findMatches, getSearchers, extractContentBlock } = require('./matcher');
+
 const JPEG_START = [0xFF, 0xD8];
 const JPEG_END = [0xFF, 0xD9];
 const reLFPFile = /^(.*?)\.lfp/i;
@@ -148,18 +150,35 @@ module.exports = function(filepath, callback) {
     },
     testBuffer = [];
     
-  fs.readFile(filepath, function(err, data) {
-    if (err) return callback(err);
-    
-    // iterate through the buffer
-    for (var ii = 0, bufferLen = data.length; ii < bufferLen; ii++) {
-      testBuffer.push(data[ii]);
-      
-      if (mode) {
-        mode = mode.call(null, testBuffer, buffers, fileData);
-      }
+  fs.readFile(filepath, function(err, buffer) {
+    if (err) {
+      return callback(err);
     }
+
+    const searchers = getSearchers();
+
+    // get the image metadata
+    const imageMetadataBuffer = extractContentBlock({ buffer, searchers }, 1);
+    const deviceMetadataBuffer = extractContentBlock({ buffer, searchers }, 2);
+
+    if (imageMetadataBuffer) {
+      console.log(JSON.parse(imageMetadataBuffer.toString('utf-8')));
+    }
+
+    if (deviceMetadataBuffer) {
+      console.log(JSON.parse(deviceMetadataBuffer.toString('utf-8')));
+    }
+    // findMatches(data);
+
+    // // iterate through the buffer
+    // for (var ii = 0, bufferLen = data.length; ii < bufferLen; ii++) {
+    //   testBuffer.push(data[ii]);
+      
+    //   if (mode) {
+    //     mode = mode.call(null, testBuffer, buffers, fileData);
+    //   }
+    // }
     
-    callback(null, fileData);
+    // callback(null, fileData);
   });
 };
