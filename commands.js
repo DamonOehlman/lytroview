@@ -16,7 +16,7 @@ async function showMetadata(filename /*: string */, opts /*: {} */) {
   // const deviceMetadataBuffer = extractContentBlock({ buffer, searchers }, 2);
 
   if (imageMetadataBuffer) {
-    console.log(JSON.parse(imageMetadataBuffer.toString('utf-8')));
+    console.log(imageMetadataBuffer.toString('utf-8'));
   }
 
   // if (deviceMetadataBuffer) {
