@@ -2,7 +2,7 @@
 const path = require('path');
 const program = require('commander');
 const packageData = require('../package.json');
-const { split } = require('../commands');
+const { split, showMetadata } = require('../commands');
 
 program
   .version(packageData.version)
@@ -12,5 +12,10 @@ program
   .description('split the target LFP file into JPEG files for each layer')
   .option('-d, --output_dir <directory>', 'output location (defaults to source file location)')
   .action(split)
+
+program
+  .command('describe <filename)')
+  .description('show the metadata contained in the LFP file')
+  .action(showMetadata);
 
 program.parse(process.argv);

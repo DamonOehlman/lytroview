@@ -6,14 +6,15 @@ const fs = require('fs');
 const _ = require('underscore');
 
 /*::
-export type FileData = {
-  buffer: Buffer,
-  basePath: string
-};
-
 type LytroViewConfig = {
   outputPath: string
 }
+
+export type FileData = {
+  buffer: Buffer,
+  config: LytroViewConfig
+};
+
 */
 
 const { findMatches, getSearchers, extractContentBlock } = require('./matcher');
@@ -184,6 +185,10 @@ function deserializeConfig(sourceFile /*: string */, opts /*: {} */) /*: LytroVi
     outputPath
   };
 }
+
+module.exports = {
+  loadFile
+};
 
 function oldExport(filepath, callback) {
   // create a copy of the buffers for parsing
