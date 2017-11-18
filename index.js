@@ -1,7 +1,20 @@
+// @flow
+const path = require('path');
 const async = require('async');
 const debug = require('debug')('lytroview');
 const fs = require('fs');
 const _ = require('underscore');
+
+/*::
+export type FileData = {
+  buffer: Buffer,
+  basePath: string
+};
+
+type LytroViewConfig = {
+  outputPath: string
+}
+*/
 
 const { findMatches, getSearchers, extractContentBlock } = require('./matcher');
 
@@ -141,7 +154,38 @@ function _search(testBuffer, buffers, fileData) {
   return _search;
 } // _search
 
-module.exports = function(filepath, callback) {
+function loadFile(filename /*: string */, opts /*: {} */) /*: Promise<FileData> */ {
+  const sourceFile = path.resolve(filename);
+  const config = deserializeConfig(sourceFile, opts);
+  const baseName = path.basename(sourceFile, path.extname(sourceFile));
+
+  return new Promise((resolve, reject) => {
+    fs.readFile(sourceFile, (err, buffer) => {
+      if (err) {
+        return reject(err);
+      }
+
+      resolve({ buffer, config });
+    })
+  });
+}
+
+/**
+ * Deserialize the command line configuration providide into an application a typed
+ * configuration object.
+ */
+function deserializeConfig(sourceFile /*: string */, opts /*: {} */) /*: LytroViewConfig */ {
+  let outputPath = path.dirname(sourceFile);
+  if (opts.output_dir && typeof opts.output_dir == 'string') {
+    outputPath = opts.output_dir;
+  }
+
+  return {
+    outputPath
+  };
+}
+
+function oldExport(filepath, callback) {
   // create a copy of the buffers for parsing
   var buffers = _.clone(buffersTemplate),
     mode = _search,
@@ -158,16 +202,21 @@ module.exports = function(filepath, callback) {
     const searchers = getSearchers();
 
     // get the image metadata
+    const imageDataBuffer = extractContentBlock({ buffer, searchers }, 0);
     const imageMetadataBuffer = extractContentBlock({ buffer, searchers }, 1);
     const deviceMetadataBuffer = extractContentBlock({ buffer, searchers }, 2);
 
     if (imageMetadataBuffer) {
+      console.log('\nIMAGE DATA:')
       console.log(JSON.parse(imageMetadataBuffer.toString('utf-8')));
     }
 
     if (deviceMetadataBuffer) {
+      console.log('\nDEVICE DATA:')
       console.log(JSON.parse(deviceMetadataBuffer.toString('utf-8')));
     }
+
+    console.log(imageDataBuffer.length);
     // findMatches(data);
 
     // // iterate through the buffer

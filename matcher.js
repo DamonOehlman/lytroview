@@ -71,12 +71,12 @@ function extractContentBlock({ buffer, searchers } /*: SearchInput */, index /*:
   const blockIndexes = searcher.parse(buffer);
   if (blockIndexes.length > index) {
     const startIndex = blockIndexes[index];
-    const jsonStartIndex = startIndex + SECTION_START_LENGTH + SHA_BYTE_LENGTH;
-    const endIndex = SECTION_TERMINATOR.parse(buffer, jsonStartIndex, 1)[0];
-    debug(`start index ${startIndex}, jsonStartIndex ${jsonStartIndex}, endIndex ${endIndex}`);
+    const payloadStartIndex = startIndex + SECTION_START_LENGTH + SHA_BYTE_LENGTH;
+    const endIndex = SECTION_TERMINATOR.parse(buffer, payloadStartIndex, 1)[0];
+    debug(`start index ${startIndex}, payloadStartIndex ${payloadStartIndex}, endIndex ${endIndex}`);
 
     if (endIndex) {
-      return buffer.slice(jsonStartIndex, endIndex);
+      return buffer.slice(payloadStartIndex, endIndex);
     }
   }
 }

@@ -1,14 +1,17 @@
+// @flow
 const path = require('path');
 const fs = require('fs');
 const async = require('async');
-const lytroview = require('./');
+const { loadFile } = require('./');
 
 function split(filename, opts) {
   const sourceFile = path.resolve(filename);
   const outputDir = opts.output_dir || path.dirname(sourceFile);
   const baseName = path.basename(sourceFile, path.extname(sourceFile));
+
+  const { buffer, config } = loadfile(filename, opts);
   
-  lytroview(sourceFile, (err, fileData) => {
+  lytroview(sourceFile, (err, fileData) => load
     if (err) {
       return console.error(err);
     }
