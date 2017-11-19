@@ -1,4 +1,21 @@
 #!/usr/bin/env node
-require('scaffolder')({
-    defaultCommands: ['split']
-});
+const path = require('path');
+const program = require('commander');
+const packageData = require('../package.json');
+const { unpack, showMetadata } = require('../commands');
+
+program
+  .version(packageData.version)
+
+program
+  .command('unpack <filename>')
+  .description('unpack the target LFP file into image files for each layer')
+  .option('-d, --output_dir <directory>', 'output location (defaults to source file location)')
+  .action(unpack)
+
+program
+  .command('describe <filename)')
+  .description('show the metadata contained in the LFP file')
+  .action(showMetadata);
+
+program.parse(process.argv);
