@@ -1,6 +1,6 @@
-# Lytro Viewer
+# lytroview
 
-This is a simple command-line utility for splitting an `.lfp` file into it's component `.jpg` image layers. I'm unsure how compatible it is with the more modern Lytro cameras as I still only have a first gen camera.
+This was (and continues to be when I get time) of unpacking the raw `.LFP` file format in a meaningful way. This current implementation is very limited (i.e. can only print metadata from the file).  I am looking at how to decode the RAW image data into something meaningful, however, that is quite a bit more complicated.
 
 [![NPM](https://nodei.co/npm/lytroview.png)](https://nodei.co/npm/lytroview/)
 
@@ -8,12 +8,30 @@ This is a simple command-line utility for splitting an `.lfp` file into it's com
 
 ## Usage
 
-### Getting a sample image
-
-If you don't own a Lytro camera and would like to take this for a spin you can download one of the [sample images](http://lightfield-forum.com/2012/08/lytro-sample-lfp-files-for-download/) using the following command:
+Install using `npm`:
 
 ```
-wget http://lightfield-forum.com/wordpress/wp-content/files/IMG_0007.lfp
+npm install -g lytroview
+```
+
+Then you can run `lytroview --help` to see the available list of commands (noting that `unpack` is not operational at this time).
+
+```
+$ lytroview --help
+
+  Usage: lytroview [options] [command]
+
+
+  Options:
+
+    -V, --version  output the version number
+    -h, --help     output usage information
+
+
+  Commands:
+
+    unpack [options] <filename>  unpack the target LFP file into image files for each layer
+    describe <filename>          show the metadata contained in the LFP file
 ```
 
 ## LICENSE

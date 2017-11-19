@@ -62,6 +62,13 @@ function createSearchers(input /*: Map<PatternId,string> */) /*: Map<PatternId, 
   return bufferMap;
 }
 
+function getFileMetadata({ buffer, searchers } /*: SearchInput */) {
+  const metadataBuffer = extractContentBlock({ buffer, searchers }, 1);
+  if (metadataBuffer) {
+    return JSON.parse(metadataBuffer.toString('utf-8'));
+  }
+}
+
 function extractContentBlock({ buffer, searchers } /*: SearchInput */, index /*: number */) /*: ?Buffer */{
   const searcher = searchers.get('section_start');
   if (!searcher) {
@@ -81,8 +88,14 @@ function extractContentBlock({ buffer, searchers } /*: SearchInput */, index /*:
   }
 }
 
+function extractImages({ buffer, searcher } /*: SearchInput */) /*: Array<Buffer> */ {
+  return [];
+}
+
 module.exports = {
   getSearchers,
   findMatches,
-  extractContentBlock
+  getFileMetadata,
+  extractContentBlock,
+  extractImages
 };

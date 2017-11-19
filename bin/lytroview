@@ -2,16 +2,16 @@
 const path = require('path');
 const program = require('commander');
 const packageData = require('../package.json');
-const { split, showMetadata } = require('../commands');
+const { unpack, showMetadata } = require('../commands');
 
 program
   .version(packageData.version)
 
 program
-  .command('split <filename>')
-  .description('split the target LFP file into JPEG files for each layer')
+  .command('unpack <filename>')
+  .description('unpack the target LFP file into image files for each layer')
   .option('-d, --output_dir <directory>', 'output location (defaults to source file location)')
-  .action(split)
+  .action(unpack)
 
 program
   .command('describe <filename)')
